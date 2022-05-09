@@ -9,7 +9,7 @@
       </div>
     </div>
 
-    <answer-buttons></answer-buttons>
+    <answer-buttons :answerList="quizAnswerList"></answer-buttons>
 
     <check-answer></check-answer>
 
@@ -34,7 +34,7 @@ export default defineComponent({
   data() {
     return {
       pixel: window.devicePixelRatio,
-      currentIdx: 4,
+      currentIdx: this.getRandomInt(0, 6),
       quizList: [
         {
           url: "https://mblogthumb-phinf.pstatic.net/MjAxNzEyMjZfMjgg/MDAxNTE0MjgwMzcyMjQz.EZT_9cr7MAUekMO5Iss5ZwL1im2ABFy2QoeCfG47FCcg.sgrQq5QvXych8zbNBJ1QpV4KXJcRjOeoPvggmIWKiMYg.JPEG.syd147/%EB%B0%94%EB%B3%B4%EA%B1%B8-%ED%83%80%EC%9D%B4%ED%8B%80.jpg?type=w800",
@@ -74,6 +74,14 @@ export default defineComponent({
     },
     currentQuiz(): QuizModel {
       return this.quizList[this.currentIdx];
+    },
+  },
+
+  methods: {
+    getRandomInt(min: number, max: number) {
+      min = Math.ceil(min);
+      max = Math.floor(max);
+      return Math.floor(Math.random() * (max - min)) + min; //최댓값은 제외, 최솟값은 포함
     },
   },
 
