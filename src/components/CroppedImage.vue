@@ -8,11 +8,27 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 
+interface CanvasDrawImageModel {
+  image: HTMLImageElement;
+  sx: number;
+  sy: number;
+  sWidth: number;
+  sHeight: number;
+  dx: number;
+  dy: number;
+  dWidth: number;
+  dHeight: number;
+}
+
 export default defineComponent({
   name: "CroppedImage",
 
   props: {
-    url: String,
+    //   https://vuejs.org/guide/components/props.html#prop-validation
+    url: {
+      type: String,
+      required: true,
+    },
   },
 
   data() {
@@ -20,6 +36,8 @@ export default defineComponent({
       size: 300,
       scale: window.devicePixelRatio,
       context: null,
+      image: new Image(),
+      drawImgInfo: {} as CanvasDrawImageModel,
     };
   },
 
@@ -34,23 +52,82 @@ export default defineComponent({
     },
   },
 
+  watch: {
+    url(currentVal, oldVal) {
+      //   console.log("current", currentVal, oldVal);
+      this.loadImageFromUrl(currentVal);
+    },
+  },
+
+  methods: {
+    loadImageFromUrl(url: string) {
+      console.log("url", url);
+      this.image = new Image();
+      this.image.src = url;
+      this.image.onload = () => {
+        this.drawImgInfo = this.calcCenterCroppedImage(
+          this.image,
+          50,
+          300,
+          100,
+          60
+        );
+        console.log(this.drawImgInfo);
+      };
+    },
+
+    calcCenterCroppedImage(
+      image: HTMLImageElement,
+      cropX: number,
+      cropY: number,
+      cropWidth: number,
+      cropHeight: number
+    ): CanvasDrawImageModel {
+      return {
+        image,
+        sx: cropX,
+        sy: cropY,
+        sWidth: cropWidth,
+        sHeight: cropHeight,
+        dx: (this.size - cropWidth) / 2,
+        dy: (this.size - cropHeight) / 2,
+        dWidth: cropWidth,
+        dHeight: cropHeight,
+      };
+    },
+
+    render(ctx: any) {
+      const draw = () => {
+        requestAnimationFrame(draw);
+        ctx.clearRect(0, 0, this.canvasSize, this.canvasSize);
+
+        if (this.drawImgInfo.image) {
+          ctx.drawImage(
+            this.drawImgInfo.image,
+            this.drawImgInfo.sx,
+            this.drawImgInfo.sy,
+            this.drawImgInfo.sWidth,
+            this.drawImgInfo.sHeight,
+            this.drawImgInfo.dx,
+            this.drawImgInfo.dy,
+            this.drawImgInfo.dWidth,
+            this.drawImgInfo.dHeight
+          );
+        }
+      };
+
+      draw();
+    },
+  },
+
   mounted() {
     this.context = this.$el.getContext("2d");
 
     this.ctx.scale(this.scale, this.scale);
 
-    this.ctx.fillStyle = "#bada55";
-    this.ctx.fillRect(10, 10, 280, 280);
-    this.ctx.fillStyle = "#ffffff";
-    this.ctx.font = "18px Arial";
-    this.ctx.textAlign = "center";
-    this.ctx.textBaseline = "middle";
+    this.render(this.ctx);
 
-    var x = this.size / 2;
-    var y = this.size / 2;
-
-    var textString = "I love MDN";
-    this.ctx.fillText(textString, x, y);
+    this.loadImageFromUrl(this.url);
   },
 });
 </script>
