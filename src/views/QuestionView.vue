@@ -1,5 +1,5 @@
 <template>
-  <v-row class="text-center">
+  <v-row class="text-center" style="margin-top: 15px">
     <v-col cols="12">
       <cropped-image />
     </v-col>
