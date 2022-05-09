@@ -1,5 +1,24 @@
 <template>
   <v-app>
+    <v-app-bar
+      color="primary"
+      density="compact"
+      v-bind:image="appBarBackground"
+    >
+      <!-- <template v-slot:prepend>
+        <v-app-bar-nav-icon></v-app-bar-nav-icon>
+      </template> -->
+
+      <v-app-bar-title style="color: black">NaniNani</v-app-bar-title>
+
+      <v-spacer></v-spacer>
+
+      <v-btn icon style="color: black">
+        <v-icon>mdi-account-circle</v-icon>
+        <!-- <v-icon icon="mdi-home" />
+        <v-icon icon="fas fa-plus" /> -->
+      </v-btn>
+    </v-app-bar>
     <v-main>
       <router-view />
     </v-main>
@@ -14,7 +33,7 @@ export default defineComponent({
 
   data() {
     return {
-      //
+      appBarBackground: require("@/assets/appbarTitle2.jpg"),
     };
   },
 });
