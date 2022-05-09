@@ -91,19 +91,28 @@ export default defineComponent({
         Math.floor(randomInt / this.difficult) * this.cropImageInfo.height;
     },
 
+    initLoadedImage() {
+      this.initRandomCropImg(this.image);
+      this.drawImgInfo = this.calcCenterCroppedImage(
+        this.image,
+        this.cropImageInfo.x,
+        this.cropImageInfo.y,
+        this.cropImageInfo.width,
+        this.cropImageInfo.height
+      );
+    },
+
     loadImageFromUrl(url: string) {
       console.log("url", url);
       this.image = new Image();
       this.image.src = url;
       this.image.onload = () => {
-        this.initRandomCropImg(this.image);
-        this.drawImgInfo = this.calcCenterCroppedImage(
-          this.image,
-          this.cropImageInfo.x,
-          this.cropImageInfo.y,
-          this.cropImageInfo.width,
-          this.cropImageInfo.height
-        );
+        this.initLoadedImage();
+      };
+      this.image.onerror = () => {
+        alert("이미지 로드 중 문제가 발생했습니다.");
+        this.image = new Image(300, 300);
+        this.initLoadedImage();
       };
     },
 
