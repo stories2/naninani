@@ -6,7 +6,10 @@
           class="col-12 col-sm-12 col-md-6 col-lg-5"
           style="text-align: center"
         >
-          <cropped-image :url="currentQuiz.url" :show-cropped="true" />
+          <cropped-image
+            :url="currentQuiz.url"
+            :show-cropped="selection.idx == undefined"
+          />
         </div>
       </div>
 
