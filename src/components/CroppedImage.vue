@@ -34,7 +34,7 @@ export default defineComponent({
   data() {
     return {
       size: 300,
-      scale: window.devicePixelRatio,
+      scale: window.devicePixelRatio || 1,
       context: null,
       image: new Image(),
       drawImgInfo: {} as CanvasDrawImageModel,
