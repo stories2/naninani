@@ -1,29 +1,5 @@
 # naninani
 
-## Project setup
-```
-npm install
-```
+![ezgif com-gif-maker-min](https://user-images.githubusercontent.com/16532326/167484844-02c70520-5155-4080-acf8-0c02999c465b.gif)
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Run your unit tests
-```
-npm run test:unit
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+일부분의 그림을 보고 정답을 맞추기!
