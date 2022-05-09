@@ -8,24 +8,10 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 
-interface CanvasDrawImageModel {
-  image: HTMLImageElement;
-  sx: number;
-  sy: number;
-  sWidth: number;
-  sHeight: number;
-  dx: number;
-  dy: number;
-  dWidth: number;
-  dHeight: number;
-}
-
-interface CroppedImageModel {
-  x: number;
-  y: number;
-  width: number;
-  height: number;
-}
+import {
+  CanvasDrawImageModel,
+  CroppedImageModel,
+} from "../interfaces/CroppedImage.model";
 
 export default defineComponent({
   name: "CroppedImage",
@@ -40,6 +26,10 @@ export default defineComponent({
       type: Boolean,
       required: true,
     },
+    difficult: {
+      type: Number,
+      default: 4,
+    },
   },
 
   data() {
@@ -50,14 +40,14 @@ export default defineComponent({
       image: new Image(),
       drawImgInfo: {} as CanvasDrawImageModel,
       cropImageInfo: {
-        // x: 0,
-        // y: 0,
-        // width: 800,
-        // height: 450,
-        x: 50,
-        y: 300,
-        width: 100,
-        height: 60,
+        x: 0,
+        y: 0,
+        width: 0,
+        height: 0,
+        // x: 50,
+        // y: 300,
+        // width: 100,
+        // height: 60,
       } as CroppedImageModel,
     };
   },
@@ -81,11 +71,32 @@ export default defineComponent({
   },
 
   methods: {
+    getRandomInt(min: number, max: number) {
+      min = Math.ceil(min);
+      max = Math.floor(max);
+      return Math.floor(Math.random() * (max - min)) + min; //최댓값은 제외, 최솟값은 포함
+    },
+
+    initRandomCropImg(image: HTMLImageElement) {
+      this.cropImageInfo.width = image.width / this.difficult;
+      this.cropImageInfo.height = image.height / this.difficult;
+
+      const difficultSplitNum = this.difficult * this.difficult;
+
+      const randomInt = this.getRandomInt(0, difficultSplitNum);
+
+      this.cropImageInfo.x =
+        (randomInt % this.difficult) * this.cropImageInfo.width;
+      this.cropImageInfo.y =
+        Math.floor(randomInt / this.difficult) * this.cropImageInfo.height;
+    },
+
     loadImageFromUrl(url: string) {
       console.log("url", url);
       this.image = new Image();
       this.image.src = url;
       this.image.onload = () => {
+        this.initRandomCropImg(this.image);
         this.drawImgInfo = this.calcCenterCroppedImage(
           this.image,
           this.cropImageInfo.x,
