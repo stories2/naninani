@@ -36,6 +36,10 @@ export default defineComponent({
       type: String,
       required: true,
     },
+    showCropped: {
+      type: Boolean,
+      required: true,
+    },
   },
 
   data() {
@@ -202,10 +206,12 @@ export default defineComponent({
             this.size
           );
 
-          this.cropImageInfo = this.zoomOutImage(
-            this.drawImgInfo,
-            this.cropImageInfo
-          );
+          if (!this.showCropped) {
+            this.cropImageInfo = this.zoomOutImage(
+              this.drawImgInfo,
+              this.cropImageInfo
+            );
+          }
         }
       };
 
@@ -214,6 +220,7 @@ export default defineComponent({
   },
 
   mounted() {
+    console.log("showCropped", this.showCropped, typeof this.showCropped);
     this.context = this.$el.getContext("2d");
 
     this.ctx.scale(this.scale, this.scale);
