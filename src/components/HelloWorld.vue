@@ -12,7 +12,7 @@
 
       <v-col class="mb-4">
         <h1 class="display-2 font-weight-bold mb-3">
-          Welcome to Vuetify 3 Beta
+          {{ msg || "Welcome to Vuetify 3 Beta" }}
         </h1>
 
         <p class="subheading font-weight-regular">
@@ -80,6 +80,10 @@ import { defineComponent } from "vue";
 
 export default defineComponent({
   name: "HelloWorld",
+
+  props: {
+    msg: String,
+  },
 
   data() {
     return {
