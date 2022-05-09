@@ -20,6 +20,13 @@ interface CanvasDrawImageModel {
   dHeight: number;
 }
 
+interface CroppedImageModel {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+}
+
 export default defineComponent({
   name: "CroppedImage",
 
@@ -38,6 +45,16 @@ export default defineComponent({
       context: null,
       image: new Image(),
       drawImgInfo: {} as CanvasDrawImageModel,
+      cropImageInfo: {
+        // x: 0,
+        // y: 0,
+        // width: 800,
+        // height: 450,
+        x: 50,
+        y: 300,
+        width: 100,
+        height: 60,
+      } as CroppedImageModel,
     };
   },
 
@@ -67,13 +84,28 @@ export default defineComponent({
       this.image.onload = () => {
         this.drawImgInfo = this.calcCenterCroppedImage(
           this.image,
-          50,
-          300,
-          100,
-          60
+          this.cropImageInfo.x,
+          this.cropImageInfo.y,
+          this.cropImageInfo.width,
+          this.cropImageInfo.height
         );
-        console.log("drawImgInfo", this.drawImgInfo);
       };
+    },
+
+    zoomOutImage(
+      drawImgInfo: CanvasDrawImageModel,
+      cropImgInfo: CroppedImageModel,
+      speed = 50
+    ): CroppedImageModel {
+      cropImgInfo.x += (0 - cropImgInfo.x) / speed;
+      cropImgInfo.y += (0 - cropImgInfo.y) / speed;
+      cropImgInfo.width +=
+        (drawImgInfo.image.width - cropImgInfo.width) / speed;
+      cropImgInfo.height +=
+        (drawImgInfo.image.height - cropImgInfo.height) / speed;
+      return {
+        ...cropImgInfo,
+      } as CroppedImageModel;
     },
 
     calcCenterCroppedImage(
@@ -96,22 +128,83 @@ export default defineComponent({
       };
     },
 
+    calcRatio(
+      srcWidth: number,
+      srcHeight: number,
+      isCropped = true,
+      renderBoxWidth = 300,
+      renderBoxHeight = 300
+    ) {
+      if (isCropped) {
+        return srcWidth > srcHeight
+          ? srcWidth / renderBoxWidth
+          : srcHeight / renderBoxHeight;
+      } else {
+        return srcWidth > srcHeight
+          ? renderBoxWidth / srcWidth
+          : renderBoxHeight / srcHeight;
+      }
+    },
+
+    renderCenterstageImage(
+      ctx: any,
+      drawImgInfo: CanvasDrawImageModel,
+      cropImgInfo: CroppedImageModel,
+      renderBoxWidth = 300,
+      renderBoxHeight = 300
+    ) {
+      const ratio = this.calcRatio(
+        cropImgInfo.width,
+        cropImgInfo.height,
+        false,
+        renderBoxWidth,
+        renderBoxHeight
+      );
+      //   console.log(
+      //     drawImgInfo,
+      //     "r",
+      //     ratio,
+      //     drawImgInfo.dHeight * ratio,
+      //     renderBoxHeight,
+      //     renderBoxHeight - drawImgInfo.dHeight * ratio
+      //   );
+      ctx.drawImage(
+        drawImgInfo.image,
+        drawImgInfo.sx,
+        drawImgInfo.sy,
+        drawImgInfo.sWidth,
+        drawImgInfo.sHeight,
+        (renderBoxWidth - drawImgInfo.dWidth * ratio) / 2,
+        (renderBoxHeight - drawImgInfo.dHeight * ratio) / 2,
+        drawImgInfo.dWidth * ratio,
+        drawImgInfo.dHeight * ratio
+      );
+      return this.calcCenterCroppedImage(
+        drawImgInfo.image,
+        cropImgInfo.x,
+        cropImgInfo.y,
+        cropImgInfo.width,
+        cropImgInfo.height
+      );
+    },
+
     render(ctx: any) {
       const draw = () => {
         requestAnimationFrame(draw);
         ctx.clearRect(0, 0, this.canvasSize, this.canvasSize);
 
         if (this.drawImgInfo.image) {
-          ctx.drawImage(
-            this.drawImgInfo.image,
-            this.drawImgInfo.sx,
-            this.drawImgInfo.sy,
-            this.drawImgInfo.sWidth,
-            this.drawImgInfo.sHeight,
-            this.drawImgInfo.dx,
-            this.drawImgInfo.dy,
-            this.drawImgInfo.dWidth,
-            this.drawImgInfo.dHeight
+          this.drawImgInfo = this.renderCenterstageImage(
+            ctx,
+            this.drawImgInfo,
+            this.cropImageInfo,
+            this.size,
+            this.size
+          );
+
+          this.cropImageInfo = this.zoomOutImage(
+            this.drawImgInfo,
+            this.cropImageInfo
           );
         }
       };
