@@ -72,7 +72,7 @@ export default defineComponent({
           100,
           60
         );
-        console.log(this.drawImgInfo);
+        console.log("drawImgInfo", this.drawImgInfo);
       };
     },
 
