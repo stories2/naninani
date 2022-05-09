@@ -28,8 +28,9 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-createApp(App)
-  .use(router)
-  .use(BootstrapVue3)
-  // .use(createRedux(store))
-  .mount("#app");
+import vuetify from "./plugins/vuetify";
+import { loadFonts } from "./plugins/webfontloader";
+
+loadFonts();
+
+createApp(App).use(router).use(BootstrapVue3).use(vuetify).mount("#app");
