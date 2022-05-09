@@ -6,15 +6,40 @@
         style="text-align: center"
       >
         <cropped-image
-          url="https://mblogthumb-phinf.pstatic.net/MjAxOTA2MTlfMjM5/MDAxNTYwOTM4NDg1MTE4._vxA1MpWbmakA8l6lMfcKf1Za5Q5KMd3gtQfV8yShwog.wyYIRhZBSdmMOUbEbFMf2uaNXxOltizEZWtbrslgiasg.JPEG.mria0352/kimi-no-na-wa-mitsuha-miyamizu-taki-tachibana-clouds-stairs-cityscape.jpg?type=w800"
+          url="https://w.namu.la/s/ab7aa0327878acd8e8349a10621b36f65dbca2f98c843e1e0dd766b0d73e15c1308495788cdeafbd50eba8f9cecbe0aa175edf5e1547d54ace5dffae37ac7b42322ab913cb7d8b3b1e7b76158bebe0dcd29b2015d170ad5e9675b6f809139a099d97c0ba3387e4de9c1992b0f3f24b94"
           :show-cropped="true"
         />
       </div>
     </div>
 
-    <v-row class="text-center">
-      <v-col cols="12" style="color: white"> pixel ratio {{ pixel }}</v-col>
-    </v-row>
+    <div class="row justify-content-center">
+      <div
+        class="col-12 col-sm-12 col-md-6 col-lg-5"
+        style="text-align: center"
+      >
+        <div class="btn-margin">
+          <v-btn variant="outlined">바보걸</v-btn>
+        </div>
+        <div class="btn-margin">
+          <v-btn variant="outlined">이 멋진 세계에 축복을!</v-btn>
+        </div>
+        <div class="btn-margin">
+          <v-btn variant="outlined">은혼</v-btn>
+        </div>
+        <div class="btn-margin">
+          <v-btn variant="outlined">원피스(만화)</v-btn>
+        </div>
+        <div class="btn-margin">
+          <v-btn variant="outlined">플라스틱 메모리즈</v-btn>
+        </div>
+        <div class="btn-margin">
+          <v-btn variant="outlined">너의 이름은.</v-btn>
+        </div>
+        <div class="btn-margin">
+          <v-btn variant="outlined">날씨의 아이</v-btn>
+        </div>
+      </div>
+    </div>
   </v-container>
 </template>
 
@@ -39,3 +64,10 @@ export default defineComponent({
   },
 });
 </script>
+
+<style scoped>
+.btn-margin {
+  margin: 5px;
+  display: inline-block;
+}
+</style>
