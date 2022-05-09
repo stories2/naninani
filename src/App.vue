@@ -38,3 +38,9 @@ export default defineComponent({
   },
 });
 </script>
+
+<style>
+.v-row {
+  /* margin: 0px; */
+}
+</style>
