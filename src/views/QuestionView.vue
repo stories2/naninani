@@ -13,11 +13,6 @@
         </div>
       </div>
 
-      <answer-buttons
-        :answerList="quizList"
-        v-on:answerSelected="onAnswerSelected"
-      ></answer-buttons>
-
       <check-answer
         :expected="currentQuiz"
         :selected="selection"
@@ -28,6 +23,11 @@
           v-on:nextBtnClicked="onNextBtnClicked"
         ></next-quiz-button>
       </div>
+
+      <answer-buttons
+        :answerList="quizList"
+        v-on:answerSelected="onAnswerSelected"
+      ></answer-buttons>
     </template>
     <template v-else>
       <div class="row justify-content-center" style="margin: 15px 0px">
