@@ -9,7 +9,11 @@
         <v-app-bar-nav-icon></v-app-bar-nav-icon>
       </template> -->
 
-      <v-app-bar-title style="color: black">NaniNani</v-app-bar-title>
+      <v-app-bar-title
+        style="color: black; cursor: pointer"
+        @click="onLabelClicked"
+        >NaniNani</v-app-bar-title
+      >
 
       <v-spacer></v-spacer>
 
@@ -35,6 +39,12 @@ export default defineComponent({
     return {
       appBarBackground: require("@/assets/appbarTitle2.jpg"),
     };
+  },
+
+  methods: {
+    onLabelClicked() {
+      this.$router.go(0);
+    },
   },
 });
 </script>
