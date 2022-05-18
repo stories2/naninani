@@ -32,27 +32,10 @@ const app = initializeApp(firebaseConfig);
 import "material-design-icons-iconfont/dist/material-design-icons.css";
 import "@mdi/font/css/materialdesignicons.css";
 
-// import vuetify from "./plugins/vuetify";
-import { createVuetify } from "vuetify";
-// https://next.vuetifyjs.com/en/features/icon-fonts/
-import { mdi } from "vuetify/iconsets/mdi";
-import { aliases, fa } from "vuetify/iconsets/fa";
+import vuetify from "./plugins/vuetify";
 import { loadFonts } from "./plugins/webfontloader";
 
 loadFonts();
-
-const vuetify = createVuetify({
-  theme: {
-    defaultTheme: "dark",
-  },
-  icons: {
-    defaultSet: "mdi",
-    aliases,
-    sets: {
-      mdi,
-    },
-  },
-});
 
 // https://github.com/vuetifyjs/vuetify/issues/14967#issuecomment-1106463958
 createApp(App).use(router).use(BootstrapVue3).use(vuetify).mount("#app");
