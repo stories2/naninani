@@ -35,7 +35,14 @@ import "@mdi/font/css/materialdesignicons.css";
 import vuetify from "./plugins/vuetify";
 import { loadFonts } from "./plugins/webfontloader";
 
+import { store } from "./dataStore";
+
 loadFonts();
 
 // https://github.com/vuetifyjs/vuetify/issues/14967#issuecomment-1106463958
-createApp(App).use(router).use(BootstrapVue3).use(vuetify).mount("#app");
+createApp(App)
+  .use(router)
+  .use(BootstrapVue3)
+  .use(vuetify)
+  .use(store)
+  .mount("#app");

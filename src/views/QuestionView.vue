@@ -29,26 +29,10 @@
         v-on:answerSelected="onAnswerSelected"
       ></answer-buttons>
     </template>
-    <template v-else>
-      <div class="row justify-content-center" style="margin: 15px 0px">
-        <div
-          class="col-12 col-sm-12 col-md-6 col-lg-5"
-          style="
-            text-align: center;
-            text-align: center;
-            font-size: 2em;
-            font-weight: bold;
-            margin-top: 40px;
-          "
-        >
-          {{ correctCnt }} 개 맞혔어요!
-        </div>
-      </div>
-    </template>
 
     <b-row>
       <b-col>
-        <adsense-block></adsense-block>
+        <!-- <adsense-block></adsense-block> -->
       </b-col>
     </b-row>
   </v-container>
@@ -74,14 +58,13 @@ export default defineComponent({
     CheckAnswer,
     AnswerButtons,
     NextQuizButton,
-    AdsenseBlock,
+    // AdsenseBlock,
   },
 
   data() {
     return {
       pixel: window.devicePixelRatio,
       currentIdx: this.getRandomInt(0, 6),
-      correctCnt: 0,
       selection: {} as QuizModel,
       quizList: [
         {
@@ -123,6 +106,10 @@ export default defineComponent({
     };
   },
 
+  mounted() {
+    this.$store.commit("resetCorrectCnt");
+  },
+
   computed: {
     currentQuiz(): QuizModel {
       return this.quizList[this.currentIdx];
@@ -146,12 +133,15 @@ export default defineComponent({
           this.selection.idx === this.quizList[this.currentIdx].idx
         );
         if (this.selection.idx === this.quizList[this.currentIdx].idx) {
-          this.correctCnt++;
+          this.$store.commit("increaseCorrectCnt");
         }
       }
     },
 
     onNextBtnClicked() {
+      if (this.quizList.length <= 1) {
+        this.$router.push("result");
+      }
       this.selection = {} as QuizModel;
       this.quizList.splice(this.currentIdx, 1);
       this.currentIdx = this.getRandomInt(0, this.quizList.length);
