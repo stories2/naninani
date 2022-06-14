@@ -45,6 +45,12 @@
         </div>
       </div>
     </template>
+
+    <b-row>
+      <b-col>
+        <adsense-block></adsense-block>
+      </b-col>
+    </b-row>
   </v-container>
 </template>
 
@@ -56,11 +62,20 @@ import CroppedImage from "../components/CroppedImage.vue";
 import CheckAnswer from "../components/CheckAnswer.vue";
 import AnswerButtons from "@/components/AnswerButtons.vue";
 import NextQuizButton from "@/components/NextQuizButton.vue";
+import AdsenseBlock from "@/components/AdsenseBlock.vue";
 
 import { QuizModel } from "../interfaces/Quiz.model";
 
 export default defineComponent({
   name: "QuestionView",
+
+  components: {
+    CroppedImage,
+    CheckAnswer,
+    AnswerButtons,
+    NextQuizButton,
+    AdsenseBlock,
+  },
 
   data() {
     return {
@@ -142,13 +157,6 @@ export default defineComponent({
       this.currentIdx = this.getRandomInt(0, this.quizList.length);
       //   console.log('this.quiz', this.quizList)
     },
-  },
-
-  components: {
-    CroppedImage,
-    CheckAnswer,
-    AnswerButtons,
-    NextQuizButton,
   },
 });
 </script>
