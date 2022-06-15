@@ -53,6 +53,7 @@ export type QuizInfo = {
   createDatetime: Date;
   isDeleted: boolean;
   deleteDatetime: Date | null;
+  maxCorrection: number;
   info: QuizLang[];
   data: QuizData[];
   comments: number;

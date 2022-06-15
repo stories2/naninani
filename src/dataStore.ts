@@ -25,6 +25,7 @@ export const store = createStore({
           createDatetime: new Date(),
           isDeleted: false,
           deleteDatetime: null,
+          maxCorrection: 8,
           info: [
             {
               default: true,
