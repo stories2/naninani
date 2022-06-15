@@ -32,6 +32,10 @@ function onlyVerifiedPlayer(playerId) {
     return request.auth.uid == playerId && request.auth.token.email_verified;
 }
 // https://dev.to/rbt/firestore-data-validation-3k85
+// https://stackoverflow.com/a/51053897
+// https://firebase.google.com/docs/reference/rules/rules?hl=en
+// https://cloud.google.com/firestore/docs/security/rules-conditions
+// https://firebase.google.com/docs/firestore/security/rules-structure
 function validatePlayerData(playerId) {
     return (
         onlyHasAttrs(['name', 'email', 'email_verified', 'public']) &&
