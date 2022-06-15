@@ -12,5 +12,32 @@ service cloud.firestore {
       // Only the room owner is allowed to modify it, and owner mustn't be able to assign his room to other user.
       allow update: if resource.data.owner == request.auth.uid && request.resource.data.owner == request.auth.uid;
     }
+
+    match /players/{playerId} {
+        allow get: if onlyVerifiedPlayer(playerId);
+        allow create: if onlyVerifiedPlayer(playerId) && validatePlayerData(playerId);
+    }
   }
+}
+
+function incomingData() {
+   return request.resource.data;
+}
+
+function onlyHasAttrs(attrs){
+   return incomingData().keys().hasOnly(attrs);
+}
+
+function onlyVerifiedPlayer(playerId) {
+    return request.auth.uid == playerId && request.auth.token.email_verified;
+}
+
+function validatePlayerData(playerId) {
+    return (
+        onlyHasAttrs(['name', 'email', 'email_verified', 'public']) &&
+        incomingData().name is string &&
+        incomingData().name.size() > 0 &&
+        incomingData().email is string &&
+        incomingData().public is bool
+    )
 }
