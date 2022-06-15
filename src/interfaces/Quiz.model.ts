@@ -4,27 +4,31 @@ export interface QuizModel {
   name: string;
 }
 
-type Permission = "public" | "private" | "onlyMe";
-type Lang = "kr | en | jp";
+export type Permission = "public" | "private" | "onlyMe";
+export type Lang = "kr" | "en" | "jp";
 
-type QuizData = {
+export type QuizData = {
   qid: string;
   imgUrl: string;
   x: number;
   y: number;
   width: number;
   height: number;
+  crop_x: number;
+  crop_y: number;
+  crop_width: number;
+  crop_height: number;
   answer: string;
 };
 
-type QuizLang = {
+export type QuizLang = {
   default: boolean;
   lang: Lang;
   title: string;
   description: string;
 };
 
-type QuizComment = QuizData & {
+export type QuizComment = QuizData & {
   player: PlayerInfo;
   text: string;
   createDatetime: Date;
@@ -32,12 +36,12 @@ type QuizComment = QuizData & {
   deleteDatetime: Date;
 };
 
-type QuizLike = {
+export type QuizLike = {
   player: PlayerInfo;
   createDatetime: Date;
 };
 
-type PlayerInfo = {
+export type PlayerInfo = {
   uid: string;
   nickname: string;
   email: string;
@@ -48,7 +52,7 @@ export type QuizInfo = {
   player: PlayerInfo;
   createDatetime: Date;
   isDeleted: boolean;
-  deleteDatetime: Date;
+  deleteDatetime: Date | null;
   info: QuizLang[];
   data: QuizData[];
   comments: number;

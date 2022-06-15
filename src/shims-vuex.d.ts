@@ -5,6 +5,7 @@ declare module "@vue/runtime-core" {
   // Declare your own store states.
   interface State {
     correctCnt: number;
+    quizList: QuizInfo[];
   }
 
   interface ComponentCustomProperties {
