@@ -14,7 +14,7 @@
         </b-row>
         <b-row class="grid-date">
           <b-col>
-            {{ quiz.createDatetime }}
+            {{ quiz.createDatetime.toDate().toLocaleDateString() }}
           </b-col>
         </b-row>
       </b-col>
@@ -42,7 +42,7 @@ export default defineComponent({
 
   computed: {
     defaultLangInfo() {
-      return this.quiz!.info.filter((lang) => lang.default === true);
+      return this.quiz!.info.find((lang) => lang.default === true);
     },
   },
 });

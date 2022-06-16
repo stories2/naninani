@@ -1,6 +1,11 @@
 <template>
   <div>
     <b-container>
+      <!-- <b-row>
+        <b-col
+          >{{ $store.state.quizList.length }} / {{ quizList.length }}</b-col
+        >
+      </b-row> -->
       <b-row style="padding: 12px 0">
         <b-col cols="12" md="6" lg="4" style="margin: 12px 0px">
           <quiz-grid-item></quiz-grid-item>
@@ -10,10 +15,10 @@
           md="6"
           lg="4"
           style="margin: 12px 0px"
-          v-for="t in testList"
-          :key="t"
+          v-for="quiz in getQuizList"
+          :key="quiz"
         >
-          <quiz-grid-item></quiz-grid-item>
+          <quiz-grid-item :quiz="quiz"></quiz-grid-item>
         </b-col>
       </b-row>
     </b-container>
@@ -32,9 +37,17 @@ export default defineComponent({
   },
 
   data() {
-    return {
-      testList: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-    };
+    return {};
+  },
+
+  computed: {
+    getQuizList() {
+      return this.$store.state.quizList;
+    },
+  },
+
+  mounted() {
+    this.$store.commit("selectQuizList");
   },
 });
 </script>
