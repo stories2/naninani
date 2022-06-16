@@ -1,6 +1,11 @@
 <template>
   <div>
     <b-container>
+      <b-row style="margin-top: 15px">
+        <b-col>
+          <h2>이미지 조각 맞추기</h2>
+        </b-col>
+      </b-row>
       <!-- <b-row>
         <b-col
           >{{ $store.state.quizList.length }} / {{ quizList.length }}</b-col
