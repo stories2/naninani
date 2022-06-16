@@ -197,3 +197,4 @@ yarn-error.log
 # End of https://www.toptal.com/developers/gitignore/api/firebase,node,vue,vuejs,visualstudiocode
 
 firestore-coverage.html
+service-account.json
