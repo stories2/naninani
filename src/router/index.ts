@@ -5,13 +5,22 @@ import {
   RouteRecordRaw,
 } from "vue-router";
 import HomeView from "../views/HomeView.vue";
-import QuestionView from "../views/QuestionView.vue";
+import QuizGridView from "../views/QuizGridView.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
     name: "home",
-    component: QuestionView,
+    component: QuizGridView,
+  },
+  {
+    path: "/quiz",
+    name: "quiz",
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../views/QuestionView.vue"),
   },
   {
     path: "/result",
