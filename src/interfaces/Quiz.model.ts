@@ -60,4 +60,5 @@ export type QuizInfo = {
   comment: QuizComment[];
   likes: number;
   like: QuizLike[];
+  thumbnail: string;
 };

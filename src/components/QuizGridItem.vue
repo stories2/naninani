@@ -1,32 +1,50 @@
 <template>
   <div
     class="grid-item"
-    style="
-      background-image: url('https://user-images.githubusercontent.com/16532326/130327902-48d51b56-53d7-42ac-aafc-862a26374ee6.png');
-    "
+    :style="{ 'background-image': 'url(' + (quiz ? quiz.thumbnail : '') + ')' }"
   >
-    <b-row class="grid-descript">
+    <b-row class="grid-descript" v-if="quiz">
       <b-col>
         <b-row class="grid-text">
-          <b-col>ホロライブバタバーの名前を合わせる</b-col>
+          <b-col>{{ defaultLangInfo.title }}</b-col>
         </b-row>
         <b-row>
-          <b-col><v-icon>mdi-thumb-up</v-icon> 0 </b-col>
-          <b-col> <v-icon>mdi-comment-text</v-icon> 0 </b-col>
+          <b-col><v-icon>mdi-thumb-up</v-icon> {{ quiz.likes }} </b-col>
+          <b-col> <v-icon>mdi-comment-text</v-icon> {{ quiz.comments }} </b-col>
         </b-row>
         <b-row class="grid-date">
-          <b-col>2022-06-16</b-col>
+          <b-col>
+            {{ quiz.createDatetime }}
+          </b-col>
         </b-row>
       </b-col>
     </b-row>
+    <div v-else class="grid-plus-container">
+      <span class="grid-plus">
+        <v-icon>mdi-plus</v-icon>
+      </span>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, PropType } from "vue";
+import { QuizInfo } from "../interfaces/Quiz.model";
 
 export default defineComponent({
   name: "QuizGridItem",
+
+  props: {
+    quiz: {
+      type: Object as PropType<QuizInfo>,
+    },
+  },
+
+  computed: {
+    defaultLangInfo() {
+      return this.quiz!.info.filter((lang) => lang.default === true);
+    },
+  },
 });
 </script>
 
@@ -71,5 +89,17 @@ export default defineComponent({
   text-align: right;
   margin-top: 5px;
   font-size: 7px;
+}
+
+.grid-plus-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.grid-plus {
+  transform: translate(-50%, 60%);
+  position: absolute;
+  font-size: 50px;
 }
 </style>
