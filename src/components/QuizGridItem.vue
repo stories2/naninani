@@ -14,7 +14,7 @@
           <b-col><v-icon>mdi-thumb-up</v-icon> 0 </b-col>
           <b-col> <v-icon>mdi-comment-text</v-icon> 0 </b-col>
         </b-row>
-        <b-row style="text-align: right; margin-top: 5px">
+        <b-row class="grid-date">
           <b-col>2022-06-16</b-col>
         </b-row>
       </b-col>
@@ -65,5 +65,11 @@ export default defineComponent({
 .grid-text {
   height: 36px;
   padding: 2px 0;
+}
+
+.grid-date {
+  text-align: right;
+  margin-top: 5px;
+  font-size: 7px;
 }
 </style>
