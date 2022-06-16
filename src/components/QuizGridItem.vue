@@ -54,13 +54,16 @@ export default defineComponent({
   position: absolute;
   margin-left: auto;
   margin-right: auto;
-  background-color: white;
   border-bottom-right-radius: 15px;
   border-bottom-left-radius: 15px;
   padding-bottom: 5px;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  font-weight: bold;
 }
 
 .grid-text {
   height: 36px;
+  padding: 2px 0;
 }
 </style>
