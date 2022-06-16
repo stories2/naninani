@@ -48,6 +48,7 @@ export type PlayerInfo = {
 };
 
 export type QuizInfo = {
+  docID: string;
   permission: Permission;
   player: PlayerInfo;
   createDatetime: Date;

@@ -2,6 +2,7 @@
   <div
     class="grid-item"
     :style="{ 'background-image': 'url(' + (quiz ? quiz.thumbnail : '') + ')' }"
+    @click="onGridItemClicked()"
   >
     <b-row class="grid-descript" v-if="quiz">
       <b-col>
@@ -37,6 +38,14 @@ export default defineComponent({
   props: {
     quiz: {
       type: Object as PropType<QuizInfo>,
+    },
+  },
+
+  methods: {
+    onGridItemClicked() {
+      if (this.quiz) {
+        this.$router.push(`/quiz/${this.quiz.docID}`);
+      }
     },
   },
 

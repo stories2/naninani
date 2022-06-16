@@ -24,7 +24,10 @@ export class QuizDao {
     querySnapshot.forEach((doc) => {
       // doc.data() is never undefined for query doc snapshots
       //   console.log(doc.id, " => ", doc.data());
-      quizList.push(doc.data() as QuizInfo);
+      quizList.push({
+        ...doc.data(),
+        docID: doc.id,
+      } as QuizInfo);
     });
     return quizList;
   }
