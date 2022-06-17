@@ -1,7 +1,7 @@
 <template>
   <div>
     <div
-      v-if="selected"
+      v-if="isUserSelected"
       class="row justify-content-center"
       style="margin-top: 15px"
     >
@@ -12,7 +12,9 @@
         선택: {{ selected.name }}
       </div>
     </div>
-    <template v-if="expected && selected">
+    <template v-if="expected && isUserSelected">
+      <!-- {{ selected.idx != undefined }} / {{ selected.idx != "" }} /
+      {{ selected.idx }} -->
       <div
         v-if="expected.idx == selected.idx && expected.name == selected.name"
         class="row justify-content-center"
@@ -63,6 +65,27 @@ export default defineComponent({
     selected: {
       type: Object,
       required: true,
+    },
+  },
+
+  mounted() {
+    console.log("selected.idx", this.selected.idx, typeof this.selected.idx);
+  },
+
+  computed: {
+    isUserSelected(): boolean {
+      // console.log(
+      //   "selected.idx",
+      //   this.selected.idx,
+      //   typeof this.selected.idx,
+      //   this.selected.idx != undefined,
+      //   this.selected.idx !== ""
+      // );
+      return (
+        this.selected &&
+        this.selected.idx != undefined &&
+        this.selected.idx !== ""
+      );
     },
   },
 });
