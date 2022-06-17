@@ -163,6 +163,7 @@ export default defineComponent({
         this.selection = {} as QuizModel;
         this.showCropped = true;
         this.answerIndxList.length = 0;
+        this.url = "";
         this.genCurrentQuizAnswer();
       } else {
         this.$router.push("/result");
