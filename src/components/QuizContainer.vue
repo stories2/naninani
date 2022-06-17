@@ -13,6 +13,7 @@
           :imgCropInfo="quizData"
           style="border-radius: 15px; border: 1px solid white"
         />
+        <span v-else>Image loading...</span>
       </b-col>
     </b-row>
 
@@ -114,8 +115,34 @@ export default defineComponent({
         const randomIdx = this.getRandomInt(0, this.unusedQuizItemList.length);
         const quiz = this.unusedQuizItemList[randomIdx];
         const quizIdx = this.quizInfo.data.indexOf(quiz);
-        // console.log("idxof", quizIdx, this.quizInfo.data[quizIdx], quiz);
         this.answerIndxList.push(quizIdx);
+        // console.log(
+        //   "simple",
+        //   [50, 50, 20, 73],
+        //   JSON.stringify(
+        //     this.quizWitchUnusedAsQuizAnswerList
+        //       .filter((el, i) => [50, 50, 20, 73].every((j) => i !== j))
+        //       .map((item) => this.quizInfo.data.indexOf(item))
+        //   )
+        // );
+        console.log("idxof", quizIdx, this.quizInfo.data[quizIdx], quiz);
+        console.log(
+          "#",
+          i,
+          "test",
+          JSON.stringify(
+            this.quizWitchUnusedAsQuizAnswerList
+              .filter((el, i) => this.answerIndxList.every((j) => i !== j))
+              .map((item) => this.quizInfo.data.indexOf(item))
+          )
+        );
+        console.log("#", i, "sadf", JSON.stringify(this.answerIndxList));
+        console.log(
+          "#",
+          i,
+          "aaaa",
+          JSON.stringify(this.usedQuizAsAnswerIndxList)
+        );
       }
       this.usedQuizAsAnswerIndxList.push(
         this.answerIndxList[this.correctAnswerIndx]

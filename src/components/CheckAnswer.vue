@@ -1,7 +1,7 @@
 <template>
   <div>
     <div
-      v-if="selected && selected.idx"
+      v-if="selected && selected.idx >= 0"
       class="row justify-content-center"
       style="margin-top: 15px"
     >
@@ -12,7 +12,9 @@
         선택: {{ selected.name }}
       </div>
     </div>
-    <template v-if="expected && expected.idx && selected && selected.idx">
+    <template
+      v-if="expected && expected.idx >= 0 && selected && selected.idx >= 0"
+    >
       <div
         v-if="expected.idx == selected.idx && expected.name == selected.name"
         class="row justify-content-center"
