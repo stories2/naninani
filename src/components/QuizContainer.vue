@@ -107,13 +107,14 @@ export default defineComponent({
       this.quizCnt++;
       this.answerIndxList.length = 0;
       const answerLen = Math.min(
-        this.unusedQuizItemList.length,
+        this.getUnusedQuizItemList().length,
         this.quizInfo?.answerNum
       );
       this.correctAnswerIndx = this.getRandomInt(0, answerLen);
       for (let i = 0; i < answerLen; i++) {
-        const randomIdx = this.getRandomInt(0, this.unusedQuizItemList.length);
-        const quiz = this.unusedQuizItemList[randomIdx];
+        const unusedQuizItemArray = this.getUnusedQuizItemList();
+        const randomIdx = this.getRandomInt(0, unusedQuizItemArray.length);
+        const quiz = unusedQuizItemArray[randomIdx];
         const quizIdx = this.quizInfo.data.indexOf(quiz);
         this.answerIndxList.push(quizIdx);
         // console.log(
@@ -125,24 +126,32 @@ export default defineComponent({
         //       .map((item) => this.quizInfo.data.indexOf(item))
         //   )
         // );
-        console.log("idxof", quizIdx, this.quizInfo.data[quizIdx], quiz);
-        console.log(
-          "#",
-          i,
-          "test",
-          JSON.stringify(
-            this.quizWitchUnusedAsQuizAnswerList
-              .filter((el, i) => this.answerIndxList.every((j) => i !== j))
-              .map((item) => this.quizInfo.data.indexOf(item))
-          )
-        );
-        console.log("#", i, "sadf", JSON.stringify(this.answerIndxList));
-        console.log(
-          "#",
-          i,
-          "aaaa",
-          JSON.stringify(this.usedQuizAsAnswerIndxList)
-        );
+        // console.log("idxof", quizIdx, this.quizInfo.data[quizIdx], quiz);
+        // console.log(
+        //   "#",
+        //   i,
+        //   "test",
+        //   JSON.stringify(
+        //     this.quizWitchUnusedAsQuizAnswerList
+        //       .filter((el, i) => this.answerIndxList.every((j) => i !== j))
+        //       .map((item) => this.quizInfo.data.indexOf(item))
+        //   )
+        // );
+        // console.log("#", i, "sadf", JSON.stringify(this.answerIndxList));
+        // console.log(
+        //   "#",
+        //   i,
+        //   "aaaa",
+        //   JSON.stringify(this.usedQuizAsAnswerIndxList)
+        // );
+        // console.log(
+        //   "#",
+        //   i,
+        //   "fafa",
+        //   this.getUnusedQuizItemList().map((item) =>
+        //     this.quizInfo.data.indexOf(item)
+        //   )
+        // );
       }
       this.usedQuizAsAnswerIndxList.push(
         this.answerIndxList[this.correctAnswerIndx]
@@ -199,6 +208,14 @@ export default defineComponent({
       } else {
         this.$router.push("/result");
       }
+    },
+
+    getUnusedQuizItemList(): QuizData[] {
+      return this.quizInfo.data.filter((el: QuizData, i: number) =>
+        this.usedQuizAsAnswerIndxList
+          .concat(this.answerIndxList)
+          .every((j) => i !== j)
+      );
     },
   },
 
