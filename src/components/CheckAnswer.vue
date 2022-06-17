@@ -14,7 +14,7 @@
     </div>
     <template v-if="expected && expected.idx && selected && selected.idx">
       <div
-        v-if="expected.idx == selected.idx"
+        v-if="expected.idx == selected.idx && expected.name == selected.name"
         class="row justify-content-center"
         style="margin-top: 15px; color: #38bd2c"
       >

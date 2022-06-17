@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <b-container>
     <b-row>
       <b-col
         style="
@@ -27,12 +27,18 @@
         ></next-quiz-button>
       </b-col>
     </b-row>
-  </div>
+    <b-row v-for="log in $store.state.quizLogList" :key="log" align-h="center">
+      <b-col xl="6" lg="8" cols="12">
+        <quiz-log-list-item :quizLog="log"></quiz-log-list-item>
+      </b-col>
+    </b-row>
+  </b-container>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
 import NextQuizButton from "@/components/NextQuizButton.vue";
+import QuizLogListItem from "@/components/QuizLogListItem.vue";
 import { QuizLog } from "@/interfaces/Quiz.model";
 
 export default defineComponent({
@@ -40,6 +46,7 @@ export default defineComponent({
 
   components: {
     NextQuizButton,
+    QuizLogListItem,
   },
 
   data() {
