@@ -37,7 +37,12 @@
 </template>
 
 <script lang="ts">
-import { QuizData, QuizInfo, QuizModel } from "@/interfaces/Quiz.model";
+import {
+  QuizData,
+  QuizInfo,
+  QuizLog,
+  QuizModel,
+} from "@/interfaces/Quiz.model";
 import { defineComponent, PropType } from "vue";
 // Components
 import CroppedImage from "../components/CroppedImage.vue";
@@ -56,6 +61,8 @@ export default defineComponent({
       correctAnswerIndx: 0,
       selection: {} as QuizModel,
       quizCnt: 0,
+      startTIme: 0,
+      endTime: 0,
     };
   },
 
@@ -105,12 +112,23 @@ export default defineComponent({
       this.usedQuizAsAnswerIndxList.push(
         this.answerIndxList[this.correctAnswerIndx]
       );
+      this.startTIme = new Date().getTime();
     },
     onAnswerSelected(idx: string) {
       if (!this.selection || !this.selection.idx) {
+        this.endTime = new Date().getTime();
         this.selection.idx = idx;
         this.selection.name = this.quizInfo.data[Number(idx)].answer;
         this.showCropped = false;
+
+        this.$store.commit("appendQuizLog", {
+          answer: this.currentAnswer,
+          answerList: this.answerQuizDataList,
+          quizInfo: this.quizInfo,
+          order: this.quizCnt,
+          selected: this.quizInfo.data[Number(idx)],
+          takeTime: this.endTime - this.startTIme,
+        } as QuizLog);
       }
       //   console.log("select idx:", idx, this.quizInfo.data[Number(idx)]);
     },
@@ -143,18 +161,20 @@ export default defineComponent({
       );
     },
 
+    answerQuizDataList(): QuizData[] {
+      return this.quizInfo.data.filter((el: QuizData, i: number) =>
+        this.answerIndxList.some((j) => i === j)
+      );
+    },
+
     answerList(): any[] {
-      return this.quizInfo.data
-        .filter((el: QuizData, i: number) =>
-          this.answerIndxList.some((j) => i === j)
-        )
-        .map((val) => {
-          return {
-            name: val.answer,
-            idx: this.quizInfo.data.indexOf(val),
-            ...val,
-          };
-        });
+      return this.answerQuizDataList.map((val) => {
+        return {
+          name: val.answer,
+          idx: this.quizInfo.data.indexOf(val),
+          ...val,
+        };
+      });
     },
 
     currentAnswer(): QuizData {

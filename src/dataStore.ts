@@ -2,7 +2,7 @@ import { State } from "vue";
 import { createStore } from "vuex";
 import { QuizDao } from "./lib/quiz-dao";
 import { getCurrentInstance } from "vue";
-import { QuizInfo } from "./interfaces/Quiz.model";
+import { QuizInfo, QuizLog } from "./interfaces/Quiz.model";
 
 const quizDao = new QuizDao();
 
@@ -13,6 +13,7 @@ export const store = createStore({
       correctCnt: 0,
       quizList: [],
       quizInfo: null,
+      quizLogList: [],
     };
   },
   mutations: {
@@ -21,6 +22,14 @@ export const store = createStore({
     },
     increaseCorrectCnt(state: State) {
       state.correctCnt++;
+    },
+
+    appendQuizLog(state: State, quizLog: QuizLog) {
+      state.quizLogList.push(quizLog);
+    },
+
+    resetQuizLog(state: State) {
+      state.quizLogList.length = 0;
     },
 
     selectQuizList(state: State) {

@@ -7,6 +7,7 @@ declare module "@vue/runtime-core" {
     correctCnt: number;
     quizList: QuizInfo[];
     quizInfo: QuizInfo;
+    quizLogList: QuizLog[];
   }
 
   interface ComponentCustomProperties {

@@ -40,6 +40,7 @@ export default defineComponent({
 
   beforeMount() {
     this.$store.commit("resetQuizInfo");
+    this.$store.commit("resetQuizLog");
   },
 });
 </script>

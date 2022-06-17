@@ -64,3 +64,12 @@ export type QuizInfo = {
   thumbnail: string;
   answerNum: number;
 };
+
+export type QuizLog = {
+  order: number;
+  answer: QuizData;
+  answerList: QuizData[];
+  takeTime: number;
+  selected: QuizData;
+  quizInfo: QuizInfo;
+};
