@@ -13,21 +13,30 @@ document.querySelectorAll("table.FDomE4Kz").forEach((ele, idx) => {
     if (!nameEle || !imgEle) {
       console.log(`idx: ${idx} undefined`);
     } else {
-      const widthSplit = imgEle.width / 4;
-      const heightSplit = imgEle.height / 4;
-      vtuberList.push({
-        qid: "sample_vtuber_quiz",
-        answer: nameEle.textContent,
-        x: 0,
-        y: 0,
-        width: imgEle.width,
-        height: imgEle.height,
-        crop_x: getRandomInt(0, imgEle.width - widthSplit),
-        crop_y: getRandomInt(0, imgEle.height - heightSplit),
-        crop_width: widthSplit,
-        crop_height: heightSplit,
-        imgUrl: "https:" + imgEle.getAttribute("src"),
-      });
+      const img = new Image();
+      img.onload = () => {
+        const width = img.width;
+        const height = img.height;
+        if (width <= 0 || height <= 0) {
+          console.log(`idx: ${idx}`, imgEle, width, height);
+        }
+        const widthSplit = width / 4;
+        const heightSplit = height / 4;
+        vtuberList.push({
+          qid: "sample_vtuber_quiz",
+          answer: nameEle.textContent,
+          x: 0,
+          y: 0,
+          width: width,
+          height: height,
+          crop_x: getRandomInt(0, width - widthSplit),
+          crop_y: getRandomInt(0, height - heightSplit),
+          crop_width: widthSplit,
+          crop_height: heightSplit,
+          imgUrl: "https:" + imgEle.getAttribute("src"),
+        });
+      };
+      img.src = "https:" + imgEle.getAttribute("src");
     }
   }
 });
