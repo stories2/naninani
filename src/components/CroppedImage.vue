@@ -6,7 +6,8 @@
   ></canvas>
 </template>
 <script lang="ts">
-import { defineComponent } from "vue";
+import { QuizData } from "@/interfaces/Quiz.model";
+import { defineComponent, PropType } from "vue";
 
 import {
   CanvasDrawImageModel,
@@ -30,6 +31,9 @@ export default defineComponent({
       type: Number,
       default: 4,
     },
+    imgCropInfo: {
+      type: Object as PropType<QuizData>,
+    },
   },
 
   data() {
@@ -40,10 +44,10 @@ export default defineComponent({
       image: new Image(),
       drawImgInfo: {} as CanvasDrawImageModel,
       cropImageInfo: {
-        x: 0,
-        y: 0,
-        width: 0,
-        height: 0,
+        x: this.imgCropInfo?.x || 0,
+        y: this.imgCropInfo?.y || 0,
+        width: this.imgCropInfo?.width || 0,
+        height: this.imgCropInfo?.height || 0,
         // x: 50,
         // y: 300,
         // width: 100,
@@ -68,6 +72,9 @@ export default defineComponent({
       //   console.log("current", currentVal, oldVal);
       this.loadImageFromUrl(currentVal);
     },
+    imgCropInfo(currentVal, oldVal) {
+      this.loadImageFromUrl(currentVal.imgUrl);
+    },
   },
 
   methods: {
@@ -89,6 +96,13 @@ export default defineComponent({
         (randomInt % this.difficult) * this.cropImageInfo.width;
       this.cropImageInfo.y =
         Math.floor(randomInt / this.difficult) * this.cropImageInfo.height;
+
+      if (this.imgCropInfo) {
+        this.cropImageInfo.width = this.imgCropInfo.crop_width;
+        this.cropImageInfo.height = this.imgCropInfo.crop_height;
+        this.cropImageInfo.x = this.imgCropInfo.crop_x;
+        this.cropImageInfo.y = this.imgCropInfo.crop_y;
+      }
     },
 
     initLoadedImage() {
