@@ -166,7 +166,7 @@ export default defineComponent({
       //   this.quizInfo.data[this.answerIndxList[this.correctAnswerIndx]].answer
     },
     onAnswerSelected(idx: string) {
-      if (!this.selection || !this.selection.idx) {
+      if (!this.selection || this.selection.idx != "") {
         this.endTime = new Date().getTime();
         this.selection.idx = idx;
         this.selection.name = this.quizInfo.data[Number(idx)].answer;
