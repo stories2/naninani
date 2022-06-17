@@ -3,6 +3,14 @@ function getRandomInt(min, max) {
   max = Math.floor(max);
   return Math.floor(Math.random() * (max - min)) + min; //최댓값은 제외, 최솟값은 포함
 }
+// function download(url, filename) {
+//   var link = document.createElement("a");
+//   link.href = url;
+//   link.download = filename + ".jpg";
+//   document.body.appendChild(link);
+//   link.click();
+//   document.body.removeChild(link);
+// }
 var vtuberList = [];
 document.querySelectorAll("table.FDomE4Kz").forEach((ele, idx) => {
   if (idx >= 10) {
@@ -22,6 +30,8 @@ document.querySelectorAll("table.FDomE4Kz").forEach((ele, idx) => {
         }
         const widthSplit = width / 4;
         const heightSplit = height / 4;
+        // download(img.src, nameEle.textContent);
+
         vtuberList.push({
           qid: "sample_vtuber_quiz",
           answer: nameEle.textContent,

@@ -10,6 +10,7 @@
   "license": "MIT",
   "dependencies": {
     "firebase-admin": "^10.3.0",
+    "image-downloader": "^4.3.0",
     "node-fetch": "^3.2.6"
   }
 }
