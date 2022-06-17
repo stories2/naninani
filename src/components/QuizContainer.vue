@@ -5,11 +5,21 @@
         <cropped-image
           :show-cropped="showCropped"
           :imgCropInfo="currentAnswer"
-          @click="toggleCrop()"
           style="border-radius: 15px; border: 1px solid white"
         />
       </b-col>
     </b-row>
+
+    <check-answer
+      :expected="currentAnswerAsQuizModel"
+      :selected="selection"
+    ></check-answer>
+
+    <div v-if="selection && selection.idx">
+      <next-quiz-button
+        v-on:nextBtnClicked="onNextBtnClicked"
+      ></next-quiz-button>
+    </div>
 
     <answer-buttons
       :answerList="answerList"
@@ -19,7 +29,7 @@
 </template>
 
 <script lang="ts">
-import { QuizData, QuizInfo } from "@/interfaces/Quiz.model";
+import { QuizData, QuizInfo, QuizModel } from "@/interfaces/Quiz.model";
 import { defineComponent, PropType } from "vue";
 // Components
 import CroppedImage from "../components/CroppedImage.vue";
@@ -36,14 +46,15 @@ export default defineComponent({
       usedQuizAsAnswerIndxList: [] as number[], // 정답으로 사용된 퀴즈 인덱스
       answerIndxList: [] as number[], // 정답 후보지로 사용된 퀴즈 인덱스
       correctAnswerIndx: 0,
+      selection: {} as QuizModel,
     };
   },
 
   components: {
     CroppedImage,
-    // CheckAnswer,
+    CheckAnswer,
     AnswerButtons,
-    // NextQuizButton,
+    NextQuizButton,
     // AdsenseBlock,
   },
 
@@ -77,20 +88,33 @@ export default defineComponent({
       for (let i = 0; i < answerLen; i++) {
         const randomIdx = this.getRandomInt(0, this.unusedQuizItemList.length);
         const quiz = this.unusedQuizItemList[randomIdx];
-        // console.log("idxof", this.quizInfo.data.indexOf(quiz), quiz);
-        this.answerIndxList.push(this.quizInfo.data.indexOf(quiz));
+        const quizIdx = this.quizInfo.data.indexOf(quiz);
+        // console.log("idxof", quizIdx, this.quizInfo.data[quizIdx], quiz);
+        this.answerIndxList.push(quizIdx);
       }
       this.usedQuizAsAnswerIndxList.push(
         this.answerIndxList[this.correctAnswerIndx]
       );
     },
     onAnswerSelected(idx: string) {
-      console.log("idx", idx);
+      if (!this.selection || !this.selection.idx) {
+        this.selection.idx = idx;
+        this.selection.name = this.quizInfo.data[Number(idx)].answer;
+        this.showCropped = false;
+      }
+      //   console.log("select idx:", idx, this.quizInfo.data[Number(idx)]);
+    },
+
+    onNextBtnClicked() {
+      this.selection = {} as QuizModel;
+      this.showCropped = true;
+      this.answerIndxList.length = 0;
+      this.genCurrentQuizAnswer();
     },
   },
 
   computed: {
-    quizList(): QuizData[] {
+    quizWitchUnusedAsQuizAnswerList(): QuizData[] {
       if (!this.quizInfo) {
         return [];
       }
@@ -100,7 +124,7 @@ export default defineComponent({
     },
 
     unusedQuizItemList(): QuizData[] {
-      return this.quizList.filter((el, i) =>
+      return this.quizWitchUnusedAsQuizAnswerList.filter((el, i) =>
         this.answerIndxList.every((j) => i !== j)
       );
     },
@@ -110,13 +134,28 @@ export default defineComponent({
         .filter((el: QuizData, i: number) =>
           this.answerIndxList.some((j) => i === j)
         )
-        .map((val, mapIdx) => {
-          return { name: val.answer, idx: this.answerIndxList[mapIdx], ...val };
+        .map((val) => {
+          return {
+            name: val.answer,
+            idx: this.quizInfo.data.indexOf(val),
+            ...val,
+          };
         });
     },
 
     currentAnswer(): QuizData {
       return this.quizInfo.data[this.answerIndxList[this.correctAnswerIndx]];
+    },
+
+    currentAnswerAsQuizModel(): QuizModel {
+      //   console.log("this.currentAnswer", this.currentAnswer);
+      if (!this.currentAnswer) {
+        return {} as QuizModel;
+      }
+      return {
+        idx: `${this.answerIndxList[this.correctAnswerIndx]}`,
+        name: this.currentAnswer.answer,
+      } as QuizModel;
     },
   },
 });
