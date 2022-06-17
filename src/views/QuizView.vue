@@ -1,10 +1,19 @@
 <template>
   <div>
-    <b-container>
-      <b-row>
-        <b-col>hi</b-col>
-      </b-row>
-    </b-container>
+    <template v-if="$store.state.quizInfo">
+      <b-container>
+        <b-row>
+          <b-col>hi</b-col>
+        </b-row>
+      </b-container>
+    </template>
+    <template v-else>
+      <b-container>
+        <b-row>
+          <b-col>loading...</b-col>
+        </b-row>
+      </b-container>
+    </template>
   </div>
 </template>
 
@@ -15,7 +24,15 @@ export default defineComponent({
   name: "QuizView",
 
   mounted() {
-    console.log(this.$route.params.quizId);
+    const quizID = this.$route.params.quizId;
+    console.log("quizID", quizID);
+    if (quizID) {
+      this.$store.commit("getQuizInfo", quizID);
+    }
+  },
+
+  beforeUnmount() {
+    this.$store.commit("resetQuizInfo");
   },
 });
 </script>

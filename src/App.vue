@@ -43,7 +43,7 @@ export default defineComponent({
 
   methods: {
     onLabelClicked() {
-      this.$router.go(0);
+      this.$router.push("/");
     },
   },
 });

@@ -40,6 +40,7 @@ export class QuizDao {
     if (docSnap.exists()) {
       const quizData = {
         ...docSnap.data(),
+        data: [] as QuizData[],
         docID: quizID,
       } as QuizInfo;
 

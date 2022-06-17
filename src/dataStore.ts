@@ -2,6 +2,7 @@ import { State } from "vue";
 import { createStore } from "vuex";
 import { QuizDao } from "./lib/quiz-dao";
 import { getCurrentInstance } from "vue";
+import { QuizInfo } from "./interfaces/Quiz.model";
 
 const quizDao = new QuizDao();
 
@@ -11,6 +12,7 @@ export const store = createStore({
     return {
       correctCnt: 0,
       quizList: [],
+      quizInfo: null,
     };
   },
   mutations: {
@@ -30,6 +32,21 @@ export const store = createStore({
         .catch((err) => {
           console.error(`[Store] [selectQuizList] err: ${err.message}`);
         });
+    },
+
+    getQuizInfo(state: State, quizID: string) {
+      quizDao
+        .getQuizData(quizID)
+        .then((info) => {
+          state.quizInfo = info;
+        })
+        .catch((err) => {
+          console.error(`[Store] [getQuizInfo] err: ${err.message}`);
+        });
+    },
+
+    resetQuizInfo(state: State) {
+      state.quizInfo = null;
     },
   },
 });
