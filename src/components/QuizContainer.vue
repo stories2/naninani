@@ -9,9 +9,8 @@
       <b-col align-self="center" style="text-align: center">
         <cropped-image
           v-if="url"
-          :url="url"
           :show-cropped="showCropped"
-          :imgCropInfo="currentAnswer"
+          :imgCropInfo="quizData"
           style="border-radius: 15px; border: 1px solid white"
         />
       </b-col>
@@ -216,6 +215,13 @@ export default defineComponent({
         idx: `${this.answerIndxList[this.correctAnswerIndx]}`,
         name: this.currentAnswer.answer,
       } as QuizModel;
+    },
+
+    quizData(): QuizData {
+      return {
+        ...this.currentAnswer,
+        imgUrl: this.url,
+      } as QuizData;
     },
   },
 });

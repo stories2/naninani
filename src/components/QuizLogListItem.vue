@@ -6,8 +6,9 @@
     <b-row>
       <b-col cols="12" md="6" style="text-align: center">
         <cropped-image
+          v-if="url"
           :show-cropped="showCropped"
-          :imgCropInfo="quizLog.answer"
+          :imgCropInfo="quizData"
           @click="showCropped = false"
           style="
             border-radius: 15px;
@@ -36,10 +37,11 @@
 </template>
 
 <script lang="ts">
-import { QuizLog, QuizModel } from "@/interfaces/Quiz.model";
+import { QuizData, QuizLog, QuizModel } from "@/interfaces/Quiz.model";
 import { defineComponent, PropType } from "vue";
 import CroppedImage from "../components/CroppedImage.vue";
 import CheckAnswer from "../components/CheckAnswer.vue";
+import { QuizImageStorage } from "../lib/quizImageStorage";
 
 export default defineComponent({
   name: "QuizLogListItem",
@@ -53,12 +55,26 @@ export default defineComponent({
   data() {
     return {
       showCropped: true,
+      quizImageStorage: new QuizImageStorage(),
+      url: "",
     };
   },
 
   components: {
     CroppedImage,
     CheckAnswer,
+  },
+
+  mounted() {
+    this.quizImageStorage
+      .getImageUrl(this.quizLog.answer.qid, this.quizLog.answer.answer)
+      .then((res) => {
+        this.url = res;
+      })
+      .catch((err) => {
+        alert("이미지 로드 중 문제가 발생했습니다.");
+        console.error("[QuizLogListItem] [mounted-getImageUrl] err: ", err);
+      });
   },
 
   methods: {
@@ -100,6 +116,13 @@ export default defineComponent({
         idx: `answer`,
         name: `${this.quizLog.selected.answer}`,
       } as QuizModel;
+    },
+
+    quizData(): QuizData {
+      return {
+        ...this.quizLog.answer,
+        imgUrl: this.url,
+      } as QuizData;
     },
   },
 });
