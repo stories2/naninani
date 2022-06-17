@@ -8,6 +8,8 @@
     <b-row align-h="center" style="margin-top: 15px" v-if="currentAnswer">
       <b-col align-self="center" style="text-align: center">
         <cropped-image
+          v-if="url"
+          :url="url"
           :show-cropped="showCropped"
           :imgCropInfo="currentAnswer"
           style="border-radius: 15px; border: 1px solid white"
@@ -44,6 +46,7 @@ import {
   QuizModel,
 } from "@/interfaces/Quiz.model";
 import { defineComponent, PropType } from "vue";
+import { QuizImageStorage } from "../lib/quizImageStorage";
 // Components
 import CroppedImage from "../components/CroppedImage.vue";
 import CheckAnswer from "../components/CheckAnswer.vue";
@@ -63,6 +66,8 @@ export default defineComponent({
       quizCnt: 0,
       startTIme: 0,
       endTime: 0,
+      quizImageStorage: new QuizImageStorage(),
+      url: "",
     };
   },
 
@@ -77,6 +82,10 @@ export default defineComponent({
   props: {
     quizInfo: {
       type: Object as PropType<QuizInfo>,
+      required: true,
+    },
+    quizID: {
+      type: String,
       required: true,
     },
   },
@@ -112,7 +121,23 @@ export default defineComponent({
       this.usedQuizAsAnswerIndxList.push(
         this.answerIndxList[this.correctAnswerIndx]
       );
-      this.startTIme = new Date().getTime();
+      this.quizImageStorage
+        .getImageUrl(
+          this.quizID,
+          this.quizInfo.data[this.answerIndxList[this.correctAnswerIndx]].answer
+        )
+        .then((res) => {
+          this.url = res;
+          this.startTIme = new Date().getTime();
+        })
+        .catch((err) => {
+          alert("이미지 로드 중 문제가 발생했습니다.");
+          console.error(
+            "[QuizContainer] [genCurrentQuizAnswer-getImageUrl] err: ",
+            err
+          );
+        });
+      //   this.quizInfo.data[this.answerIndxList[this.correctAnswerIndx]].answer
     },
     onAnswerSelected(idx: string) {
       if (!this.selection || !this.selection.idx) {

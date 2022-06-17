@@ -3,6 +3,7 @@
     <quiz-container
       v-if="$store.state.quizInfo"
       :quizInfo="$store.state.quizInfo"
+      :quizID="quizID"
     ></quiz-container>
     <template v-else>
       <b-container>
@@ -30,11 +31,16 @@ export default defineComponent({
     // AdsenseBlock,
   },
 
+  data() {
+    return {
+      quizID: this.$route.params.quizId,
+    };
+  },
+
   mounted() {
-    const quizID = this.$route.params.quizId;
-    console.log("quizID", quizID);
-    if (quizID) {
-      this.$store.commit("getQuizInfo", quizID);
+    console.log("quizID", this.quizID);
+    if (this.quizID) {
+      this.$store.commit("getQuizInfo", this.quizID);
     }
   },
 
