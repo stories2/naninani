@@ -103,6 +103,11 @@ export default defineComponent({
         this.cropImageInfo.x = this.imgCropInfo.crop_x;
         this.cropImageInfo.y = this.imgCropInfo.crop_y;
       }
+
+      console.log(
+        "[CroppedImage] [initRandomCropImg] cropImageInfo",
+        this.cropImageInfo
+      );
     },
 
     initLoadedImage() {
@@ -117,10 +122,11 @@ export default defineComponent({
     },
 
     loadImageFromUrl(url: string) {
-      console.log("url", url);
+      console.log("[CroppedImage] [loadImageFromUrl] url: ", url);
       this.image = new Image();
       this.image.src = url;
       this.image.onload = () => {
+        console.log("[CroppedImage] [loadImageFromUrl] image loaded ");
         this.initLoadedImage();
       };
       this.image.onerror = () => {
@@ -261,7 +267,7 @@ export default defineComponent({
 
     this.render(this.ctx);
 
-    this.loadImageFromUrl(this.url);
+    this.loadImageFromUrl(this.imgCropInfo?.imgUrl || this.url);
   },
 });
 </script>

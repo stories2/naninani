@@ -62,4 +62,5 @@ export type QuizInfo = {
   likes: number;
   like: QuizLike[];
   thumbnail: string;
+  answerNum: number;
 };
