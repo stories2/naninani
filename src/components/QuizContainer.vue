@@ -21,7 +21,7 @@
       :selected="selection"
     ></check-answer>
 
-    <div v-if="selection && selection.idx">
+    <div v-if="selection && selection.idx >= 0">
       <next-quiz-button
         :name="
           quizCnt >= quizInfo.maxCorrection ? '결과 보러 가기' : '다음 문제'
