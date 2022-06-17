@@ -30,17 +30,17 @@ export default defineComponent({
 
   watch: {
     answerList(currentVal, oldVal) {
-      console.log("answerList watch", this.answerList);
+      // console.log("answerList watch", this.answerList);
     },
   },
 
   mounted() {
-    console.log("answerList", this.answerList);
+    // console.log("answerList", this.answerList);
   },
 
   methods: {
     answerClicked(answer: QuizModel, event: any) {
-      console.log("test", event);
+      // console.log("test", event);
       this.$emit("answerSelected", answer.idx);
     },
   },
