@@ -1,5 +1,10 @@
 <template>
   <b-container>
+    <b-row style="margin-top: 15px">
+      <b-col style="text-align: center">
+        <h2>{{ quizCnt }} / {{ quizInfo.maxCorrection }}</h2>
+      </b-col>
+    </b-row>
     <b-row align-h="center" style="margin-top: 15px" v-if="currentAnswer">
       <b-col align-self="center" style="text-align: center">
         <cropped-image
@@ -17,6 +22,9 @@
 
     <div v-if="selection && selection.idx">
       <next-quiz-button
+        :name="
+          quizCnt >= quizInfo.maxCorrection ? '결과 보러 가기' : '다음 문제'
+        "
         v-on:nextBtnClicked="onNextBtnClicked"
       ></next-quiz-button>
     </div>
@@ -47,6 +55,7 @@ export default defineComponent({
       answerIndxList: [] as number[], // 정답 후보지로 사용된 퀴즈 인덱스
       correctAnswerIndx: 0,
       selection: {} as QuizModel,
+      quizCnt: 0,
     };
   },
 
@@ -79,6 +88,7 @@ export default defineComponent({
       return Math.floor(Math.random() * (max - min)) + min; //최댓값은 제외, 최솟값은 포함
     },
     genCurrentQuizAnswer() {
+      this.quizCnt++;
       this.answerIndxList.length = 0;
       const answerLen = Math.min(
         this.unusedQuizItemList.length,
@@ -106,10 +116,14 @@ export default defineComponent({
     },
 
     onNextBtnClicked() {
-      this.selection = {} as QuizModel;
-      this.showCropped = true;
-      this.answerIndxList.length = 0;
-      this.genCurrentQuizAnswer();
+      if (this.quizCnt < this.quizInfo.maxCorrection) {
+        this.selection = {} as QuizModel;
+        this.showCropped = true;
+        this.answerIndxList.length = 0;
+        this.genCurrentQuizAnswer();
+      } else {
+        this.$router.push("/result");
+      }
     },
   },
 

@@ -38,7 +38,7 @@ export default defineComponent({
     }
   },
 
-  beforeUnmount() {
+  beforeMount() {
     this.$store.commit("resetQuizInfo");
   },
 });
