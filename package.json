@@ -58,11 +58,13 @@
     "jest": "^27.0.5",
     "mocha": "^9.2.2",
     "prettier": "^2.4.1",
+    "pwa-asset-generator": "^6.1.0",
     "sass": "^1.38.0",
     "sass-loader": "^10.0.0",
     "ts-jest": "^27.0.4",
     "typescript": "~4.5.5",
     "vue-cli-plugin-vuetify": "~2.4.8",
+    "vue-pwa-asset-generator": "^1.7.1",
     "vuetify-loader": "^2.0.0-alpha.0"
   },
   "_id": "naninani@1.0.0",
