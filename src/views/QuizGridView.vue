@@ -12,13 +12,14 @@
         >
       </b-row> -->
       <b-row style="padding: 12px 0">
-        <b-col cols="12" md="6" lg="4" style="margin: 12px 0px">
+        <b-col cols="12" md="6" lg="4" xl="3" style="margin: 12px 0px">
           <quiz-grid-item></quiz-grid-item>
         </b-col>
         <b-col
           cols="12"
           md="6"
           lg="4"
+          xl="3"
           style="margin: 12px 0px"
           v-for="quiz in getQuizList"
           :key="quiz"

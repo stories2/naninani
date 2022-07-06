@@ -1,6 +1,6 @@
 <template>
   <div
-    class="grid-item"
+    class="quiz-grid-item"
     :style="{ 'background-image': 'url(' + (quiz ? quiz.thumbnail : '') + ')' }"
     @click="onGridItemClicked()"
   >
@@ -58,8 +58,8 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.grid-item {
-  width: 300px;
+.quiz-grid-item {
+  width: 100%;
   height: 200px;
   background-position: center;
   background-repeat: no-repeat;
