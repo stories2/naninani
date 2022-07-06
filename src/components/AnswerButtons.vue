@@ -3,9 +3,12 @@
     <div class="col-12 col-sm-12 col-md-6 col-lg-5" style="text-align: center">
       <div class="btn-margin" v-for="answer in answerList" :key="answer.idx">
         <!-- https://stackoverflow.com/a/48387344 -->
-        <v-btn variant="outlined" @click="answerClicked(answer, $event)">{{
-          answer.name
-        }}</v-btn>
+        <v-btn
+          style="display: inline-block"
+          variant="outlined"
+          @click="answerClicked(answer, $event)"
+          >{{ answer.name }}</v-btn
+        >
       </div>
     </div>
   </div>

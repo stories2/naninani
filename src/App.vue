@@ -17,7 +17,7 @@
 
       <v-spacer></v-spacer>
 
-      <v-btn icon style="color: black">
+      <v-btn icon style="color: black" @click="$router.push('/account')">
         <v-icon>mdi-account-circle</v-icon>
         <!-- <v-icon icon="mdi-home" />
         <v-icon icon="fas fa-plus" /> -->
