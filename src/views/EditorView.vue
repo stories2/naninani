@@ -11,7 +11,7 @@ import { defineComponent } from "vue";
 
 export default defineComponent({
   components: { MenuContentStyle },
-  name: "AccountView",
+  name: "EditorView",
 });
 </script>
 
